@@ -33,20 +33,19 @@
 // module.exports = connection;
 
 
+
 const mysql = require('mysql2');
 
-// Create a connection pool
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'user-app',
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT,
     waitForConnections: true,
-    connectionLimit: 10, // max simultaneous connections
-    queueLimit: 0
+    connectionLimit: 10
 });
-
-// Auto-create users table
+ 
 pool.query(`
     CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,4 +57,4 @@ pool.query(`
     else console.log("Users table ready");
 });
 
-module.exports = pool.promise(); // use promise API for async/await
+module.exports = pool.promise();
